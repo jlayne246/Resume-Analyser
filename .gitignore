@@ -1,1 +1,81 @@
+# === Python ===
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+MANIFEST
+
+# === Virtual Environment ===
+venv/
+env/
+.venv/
+ENV/
+env.bak/
+
+# === FastAPI / Uvicorn / Logs ===
+*.log
+*.pid
+*.db
+instance/
+*.sqlite3
+*.sqlite
+
+# === Model Files ===
+*.pkl
+*.joblib
+*.pt
+*.bin
+*.h5
+models/
+checkpoints/
+
+# === Data Files ===
+data/
+datasets/
+*.csv
+*.tsv
+*.xlsx
+*.json
+
+# === Cache / Temp ===
+.cache/
+.ipynb_checkpoints/
+__pycache__/
+*.tmp
+*.swp
+
+# === IDE & Editor ===
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# === OS Files ===
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# === Environment Variables ===
 .env
+.env.local
+.env.*.local
+*.env
+!.example.env
+
+# === Testing ===
+.coverage
+htmlcov/
+.tox/
+pytest_cache/
+.pytest_cache/
+nosetests.xml
+coverage.xml
+
+# === Optional Node frontend (if added later) ===
+frontend/node_modules/
+frontend/dist/
