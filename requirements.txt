@@ -1,2 +1,2 @@
-python-dotenv
-pyresparser
+spacy
+pypdf
