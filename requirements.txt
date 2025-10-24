@@ -1,5 +1,1 @@
-fastapi
-spacy
-python-dotenv
-uvicorn
-pydantic
+pyresparser

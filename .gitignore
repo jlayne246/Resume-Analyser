@@ -79,3 +79,6 @@ coverage.xml
 # === Optional Node frontend (if added later) ===
 frontend/node_modules/
 frontend/dist/
+
+# === Sample Resumes ===
+samples/
