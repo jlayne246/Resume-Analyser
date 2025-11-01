@@ -10,8 +10,8 @@ class GeminiClient:
         contents=query
         )
         return response.text
-    def askFlash2_5(client,query:str)->str:
-        response = client.models.generate_content(
+    def askFlash2_5(self,query:str)->str:
+        response = self.client.models.generate_content(
         model="gemini-2.5-flash",
         contents=query
         )
