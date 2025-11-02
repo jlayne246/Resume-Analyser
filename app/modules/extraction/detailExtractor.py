@@ -21,6 +21,25 @@ class DetailExtractor:
         """
         self.client = GeminiClient()
     def getStructuredResume(self,resume:str,model:int=1)->str:
+        """Returns a JSON of structured data about the resume.
+
+        Args:
+            resume (string): The resume text to be structured.
+            model (int): The model to use for structuring the resume. 1 for Gemini Flash 2.0, 2 for Gemini Flash 2.5.
+        Returns:
+            dict: JSON with the following structure:
+                {
+                    "namePresent": bool,
+                    "phoneNumberPresent": bool,
+                    "emailPresent": bool,
+                    "linkedInPresent": bool,
+                    "personalWebsitePresent": bool,
+                    "educationInstitutes": list[str],
+                    "educationalDegrees": list[str],
+                    "skills": list[str],
+                    "companyNamesFromExperience": list[str]
+                }
+        """
         if model == 1:
             prompt = self.query.format(schema=schema_json, resume_text=resume)
             return self.client.askFlash2(prompt)
