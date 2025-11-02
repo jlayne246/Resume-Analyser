@@ -1,12 +1,30 @@
 from modules.gemini_integration.geminiClient import GeminiClient
+from models.resume.ResumeModel import ResumeSchema
+
+schema_json = ResumeSchema.schema_json(indent=2)
+
 class DetailExtractor:
     def __init__(self):
         self.query ="""
-        Return structured resume data in JSON format for the following categories: namePresent, phoneNumberPresent, emailPresent, linkedInPresent, personalWebsitePresent, educationInstitutes, educationalDegrees, skills and companyNamesFromExperience following resume text:
+        Using these rules:
+        - If data is missing, set field to null or an empty list.
+        - Do not invent, infer, or guess any values.
+        - Output only valid JSON. No commentary, no Markdown, no explanations.
+        
+        Return structured resume data in valid JSON object using the following schema:
+        {schema}
+        
+        For the following resume text:
+        {resume_text}
+        
+        But if additional categories like certifications or awards exist, you may include them as extra keys with arrays of strings.
         """
         self.client = GeminiClient()
     def getStructuredResume(self,resume:str,model:int=1)->str:
         if model == 1:
-            return self.client.askFlash2(self.query+resume)
+            prompt = self.query.format(schema=schema_json, resume_text=resume)
+            return self.client.askFlash2(prompt)
         elif model == 2:
             return self.client.askFlash2_5(self.query+resume)
+    def getQueryText(self)->str:
+        return self.query

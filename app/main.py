@@ -22,3 +22,4 @@ if __name__ == "__main__":
         details = detailExtractor.getStructuredResume(resume_text,int(option))
         print("Structured Resume Data:")
         print(details)
+        # print(detailExtractor.getQueryText())
