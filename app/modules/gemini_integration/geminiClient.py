@@ -1,3 +1,4 @@
+from google.genai import types
 from google import genai
 import os
 
@@ -19,9 +20,18 @@ class GeminiClient:
             response (string): The model's response.
         """
         response = self.client.models.generate_content(
-            model="gemini-2.0-flash",
-            contents=query
+            model="gemini-2.0-flash-exp",
+            contents=query,
+            config=types.GenerateContentConfig(
+                temperature=0,
+                top_p=0.01,  # top_p cannot be 0, must be > 0
+                top_k=1,
+                candidate_count=1,
+                max_output_tokens=4096
+            )
         )
+        
+        # extract model text
         return response.text
     def askFlash2_5(self,query:str)->str:
         """Asks Gemini Flash 2.0 model a question and returns the response as a string.

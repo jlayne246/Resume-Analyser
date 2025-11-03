@@ -33,6 +33,13 @@ class Links(BaseModel):
     personal_website: Optional[str]
     indeed: Optional[str]
     github: Optional[str]
+    
+class Reference(BaseModel):
+    name: str
+    title: str
+    organization: str
+    phone: str
+    email: str
 
 class ResumeSchema(BaseModel):
     first_name: str = Field(..., description="First name of the individual")
@@ -48,8 +55,8 @@ class ResumeSchema(BaseModel):
     work_experience: List[WorkExperience] = Field(default_factory=list, description="Work experience details")
     education: List[Education] = Field(default_factory=list, description="Educational background")
     volunteer_experience: Optional[List[VolunteerExperience]] = Field(None, description="Volunteer experience details")
-    awards: Optional[List[dict]] = Field(None, description="Awards and recognitions")
-    publications: Optional[List[dict]] = Field(None, description="Publications details")
-    certifications: Optional[List[dict]] = Field(None, description="Certifications and licenses")
-    references: Optional[List[dict]] = Field(None, description="References details")
+    awards: Optional[List[str]] = Field(None, description="Awards and recognitions")
+    publications: Optional[List[str]] = Field(None, description="Publications details")
+    certifications: Optional[List[str]] = Field(None, description="Certifications and licenses")
+    references: Optional[List[Reference]] = Field(None, description="References details")
 
