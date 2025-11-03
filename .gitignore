@@ -31,7 +31,7 @@ instance/
 *.pt
 *.bin
 *.h5
-models/
+#models/
 checkpoints/
 
 # === Data Files ===
