@@ -42,7 +42,7 @@ class PDF:
         text = ''
         for page in reader.pages:
             text += page.extract_text() + '\n'
-        text = re.sub(r'[^\w\s]', '', text)  #Removes punctuation
+        text = re.sub(r'[^\w\s@.]', '', text)  #Removes punctuation
         text = re.sub(r'\s+', ' ', text)  #Replaces multiple spaces or tabs with a single space
         text = re.sub(r'\n+', ' ', text)  #Replaces newlines with a space
         
