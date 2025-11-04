@@ -1,6 +1,6 @@
 import json
-from modules.gemini_integration.geminiClient import GeminiClient
-from models.resume.ResumeModel import ResumeSchema
+from app.modules.gemini_integration.geminiClient import GeminiClient
+from app.models.resume.ResumeModel import ResumeSchema
 
 def example_json_from_model(model):
     example = {}
