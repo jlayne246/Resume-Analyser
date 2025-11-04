@@ -27,7 +27,8 @@ class GeminiClient:
                 top_p=0.01,  # top_p cannot be 0, must be > 0
                 top_k=1,
                 candidate_count=1,
-                max_output_tokens=4096
+                max_output_tokens=4096,
+                response_mime_type="application/json",
             )
         )
         

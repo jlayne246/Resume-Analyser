@@ -1,62 +1,67 @@
-from pydantic import BaseModel, Field, EmailStr
-from typing import List, Optional   
+from pydantic import BaseModel, EmailStr
+from typing import List, Optional
 
 class WorkExperience(BaseModel):
-    company: str
-    location: Optional[str]
-    job_title: str
+    company: Optional[str]
+    title: Optional[str]
     start_date: Optional[str]
     end_date: Optional[str]
     description: Optional[str]
-    
-class VolunteerExperience(BaseModel):
-    entity: str
-    location: Optional[str]
-    role: Optional[str]
-    start_date: Optional[str]
-    end_date: Optional[str]
-    description: Optional[str]
+    location: Optional[str] = None  # Gemini often omits this
 
 class Education(BaseModel):
-    institution: str
-    location: Optional[str]
-    degree: Optional[str]
+    institution: Optional[str]
     major: Optional[str]
-    minor: Optional[str]
     start_date: Optional[str]
     end_date: Optional[str]
-    details: Optional[str]
-    gpa: Optional[float]
-    
+    description: Optional[str]
+    # Gemini usually omits these → make them optional
+    degree: Optional[str] = None
+    location: Optional[str] = None
+    minor: Optional[str] = None
+    details: Optional[str] = None
+    gpa: Optional[str] = None
+
+class VolunteerExperience(BaseModel):
+    organization: Optional[str]
+    title: Optional[str]
+    start_date: Optional[str]
+    end_date: Optional[str]
+    description: Optional[str]
+    # not always present
+    location: Optional[str] = None
+
+class Reference(BaseModel):
+    name: Optional[str]
+    title: Optional[str]
+    company: Optional[str]
+    mobile: Optional[str]
+    email: Optional[EmailStr]
+    # Gemini doesn’t use "organization" or "phone", so drop them or alias them
+    organization: Optional[str] = None
+    phone: Optional[str] = None
+
 class Links(BaseModel):
     linkedin: Optional[str]
     personal_website: Optional[str]
     indeed: Optional[str]
     github: Optional[str]
-    
-class Reference(BaseModel):
-    name: str
-    title: str
-    organization: str
-    phone: str
-    email: str
 
 class ResumeSchema(BaseModel):
-    first_name: str = Field(..., description="First name of the individual")
-    last_name: str = Field(..., description="Last name of the individual")
-    email: EmailStr = Field(..., description="Email address")
-    phone: Optional[str] = Field(None, description="Phone number")
-    links: Optional[Links] = Field(None, description="List of relevant links (e.g., LinkedIn, personal website)")
-    location: Optional[str] = Field(None, description="Location or address")
-    objective: Optional[str] = Field(None, description="Career objective or summary")
-    summary: Optional[str] = Field(None, description="Professional summary or objective")
-    soft_skills: List[str] = Field(default_factory=list, description="List of soft skills")
-    hard_skills: List[str] = Field(default_factory=list, description="List of hard skills")
-    work_experience: List[WorkExperience] = Field(default_factory=list, description="Work experience details")
-    education: List[Education] = Field(default_factory=list, description="Educational background")
-    volunteer_experience: Optional[List[VolunteerExperience]] = Field(None, description="Volunteer experience details")
-    awards: Optional[List[str]] = Field(None, description="Awards and recognitions")
-    publications: Optional[List[str]] = Field(None, description="Publications details")
-    certifications: Optional[List[str]] = Field(None, description="Certifications and licenses")
-    references: Optional[List[Reference]] = Field(None, description="References details")
-
+    first_name: Optional[str]
+    last_name: Optional[str]
+    email: Optional[EmailStr]
+    phone: Optional[str]
+    links: Optional[Links]
+    location: Optional[str]
+    objective: Optional[str]
+    summary: Optional[str]
+    soft_skills: List[str] = []
+    hard_skills: List[str] = []
+    work_experience: List[WorkExperience] = []
+    education: List[Education] = []
+    volunteer_experience: List[VolunteerExperience] = []
+    awards: List[str] = []
+    publications: List[str] = []
+    certifications: List[str] = []
+    references: List[Reference] = []
