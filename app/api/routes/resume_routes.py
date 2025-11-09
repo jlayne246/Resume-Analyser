@@ -17,8 +17,12 @@ router = APIRouter()
     )
 async def parse_resume(file: UploadFile):
     try:
+        content = await file.read()
+        print(f"Received file: {file.filename}, size: {len(content)} bytes")
+        
         controller = ResumeController()
-        result = await controller.parse_resume(file)
+        result = await controller.parse_resume(content)
         return result
     except Exception as e:
+        print("Error occurred while parsing resume:", e)
         raise HTTPException(status_code=500, detail=str(e))

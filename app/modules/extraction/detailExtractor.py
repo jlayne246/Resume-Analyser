@@ -5,7 +5,7 @@ from app.models.resume.ResumeModel import ResumeSchema
 from typing import get_args, get_origin, Union
 
 def example_json_from_model(model):
-    print("Generating example JSON from model:", model.model_fields.items())
+    # print("Generating example JSON from model:", model.model_fields.items())
     example = {}
 
     for name, field in model.model_fields.items():
