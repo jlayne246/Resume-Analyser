@@ -11,9 +11,10 @@ class ResumeController:
     
     async def parse_resume(self, file):
         try:
+            print("Starting resume parsing process...")
             # Extract text from PDF
             try:
-                text = await self.resume_service.extract_text_from_pdf(file.file)
+                text = await self.resume_service.extract_text_from_pdf(file)
             except Exception as e:
                 raise HTTPException(
                     status_code=status.HTTP_400_BAD_REQUEST, 
@@ -51,12 +52,10 @@ class ResumeController:
                         detail=f"Schema validation failed: {str(e)}"
                     )
 
-            return JSONResponse(
-                    status_code=status.HTTP_200_OK,
-                    content={
-                        "parsed_resume": resume.model_dump(),
-                    }
-            )
+            return {
+                    "parsed_resume": resume.model_dump(),
+                }
+            
         except HTTPException as http_exc:
             raise http_exc
         

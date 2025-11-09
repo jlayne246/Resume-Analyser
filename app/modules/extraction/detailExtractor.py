@@ -147,7 +147,7 @@ class DetailExtractor:
         """
         if model == 1:
             prompt = self.query.format(schema=json.dumps(schema_example, indent=2), resume_text=resume)
-            print(prompt)
+            # print(prompt)
             return self.client.askFlash2(prompt)
         elif model == 2:
             return self.client.askFlash2_5(self.query+resume)

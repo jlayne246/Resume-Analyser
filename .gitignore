@@ -35,7 +35,7 @@ instance/
 checkpoints/
 
 # === Data Files ===
-data/
+#data/
 datasets/
 *.csv
 *.tsv
