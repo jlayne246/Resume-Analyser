@@ -1,39 +1,49 @@
-import json
-from models.resume.ResumeModel import ResumeSchema
-from modules.extraction.pdfTextExtractor import PDF
-from modules.extraction.detailExtractor import DetailExtractor
+# app/main.py
+import os
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from starlette.middleware.sessions import SessionMiddleware
+from app.api.routes.resume_routes import router as resume_router
 from dotenv import load_dotenv
 load_dotenv()
 
+app = FastAPI(
+    title="Resume Analyser API",
+    version="1.0.0",
+    description="Structured resume parsing powered by Gemini Flash",
+)
+
+# app.add_middleware(
+#     CORSMiddleware,
+#     allow_origins=["*"],
+#     allow_credentials=True,
+#     allow_methods=["*"],
+#     allow_headers=["*"],
+# )
+
+app.add_middleware(
+    SessionMiddleware, 
+    secret_key=os.getenv("SECRET_KEY"),
+    same_site="none",       # or "none" if frontend runs on another port
+    https_only=True,       # must be False during local dev over HTTP
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],  # your React dev server
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Register routers (modular)
+app.include_router(resume_router, prefix="/api/resumes", tags=["Resumes"])
+
+@app.get("/health")
+def health_check():
+    return {"status": "ok"}
+
 if __name__ == "__main__":
-    source = "samples/sampleJosh.pdf" #Path to a sample PDF file
-    pdf=PDF(source)
-    option = input("Pick an option\n1: Count pages\n2: Extract text\n3: Extract clean text\n4: Get Structured Resume\n\nEnter option number: ")
-    if option == '1':
-        print(f"Number of pages: {pdf.count_pages()}")
-    elif option == '2':
-        print("Extracted Text:")
-        print(pdf.extract_text())
-    elif option == '3':
-        print("Extracted Text (clean):")
-        print(pdf.extract_clean_text())
-    elif option == '4':
-        # Text Extraction (no cleaning as yet)
-        resume_text = pdf.extract_text()
-        
-        detailExtractor = DetailExtractor()
-        option = input("Pick model to structure resume with:\n1: Gemini Flash 2.0\n2: Gemini Flash 2.5\n\nEnter option number: ")
-        if option not in ['1','2']:
-            print("Invalid option selected.")
-            exit(1)
-        
-        # LLM Prompt Builder and API Call
-        details = detailExtractor.getStructuredResume(resume_text,int(option))
-        
-        # Validate and parse using Pydantic
-        try:
-            data = json.loads(details)
-            resume = ResumeSchema(**data)
-        except Exception as e:
-            print({"error": f"Parsing failed: {str(e)}", "raw_output": details})
-        
+    import uvicorn
+    print("Starting server...")
+    uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=True)
