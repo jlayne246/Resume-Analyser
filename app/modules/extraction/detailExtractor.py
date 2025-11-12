@@ -117,6 +117,8 @@ class DetailExtractor:
         - For boolean fields: return only true or false.
         - For lists: return an empty list [] if nothing is found.
         - For strings: return null if missing.
+        - If there is an award that was won multiple times in different years, list each year separately as a string.
+        - If there is an award with multiple grades or levels, list each grade or level separately as a string.
         
         Return structured resume data in valid JSON object using the following schema and nothing else:
         {schema}
@@ -148,9 +150,13 @@ class DetailExtractor:
         if model == 1:
             prompt = self.query.format(schema=json.dumps(schema_example, indent=2), resume_text=resume)
             # print(prompt)
+            print("Built prompt... asking Gemini Flash 2.0")
             return self.client.askFlash2(prompt)
         elif model == 2:
-            return self.client.askFlash2_5(self.query+resume)
+            prompt = self.query.format(schema=json.dumps(schema_example, indent=2), resume_text=resume)
+            # print(prompt)
+            print("Built prompt... asking Gemini Flash 2.5")
+            return self.client.askFlash2_5(prompt)
     def getQueryText(self)->str:
         return self.query
     

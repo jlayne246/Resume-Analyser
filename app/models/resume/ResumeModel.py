@@ -2,11 +2,11 @@ from pydantic import BaseModel, EmailStr, Field
 from typing import List, Optional
 
 class WorkExperience(BaseModel):
-    company: str
-    title: str = Field(alias="job_title")
-    start_date: str
-    end_date: str
-    description: str = Field(alias="duties")
+    company: Optional[str] = None
+    title: Optional[str] = Field(default=None, alias="job_title")
+    start_date: Optional[str] = None
+    end_date: Optional[str] = None
+    description: Optional[str] = Field(default=None, alias="duties")
     location: Optional[str] = Field(default=None)
     
     class Config:
@@ -27,18 +27,18 @@ class Education(BaseModel):
     relevant_coursework: Optional[List[str]] = None
 
 class VolunteerExperience(BaseModel):
-    organization: str
-    title: str
-    start_date: str
-    end_date: str
-    description: str
+    organization: Optional[str] = None
+    title: Optional[str] = None
+    start_date: Optional[str] = None
+    end_date: Optional[str] = None
+    description: Optional[str] = None
     # not always present
     location: Optional[str] = None
 
 class Reference(BaseModel):
     name: str
     title: Optional[str] = None
-    company: str
+    company: Optional[str] = None
     mobile: Optional[str] = None
     email: EmailStr
     # Gemini doesn’t use "organization" or "phone", so drop them or alias them
@@ -52,26 +52,26 @@ class Links(BaseModel):
     github: Optional[str] = None
 
 class Publication(BaseModel):
-    title: str
+    title: Optional[str] = None
     publisher: Optional[str] = None
-    date: str
+    date: Optional[str] = None
     url: Optional[str] = None
 
 class ResumeSchema(BaseModel):
     first_name: str
     last_name: str
     email: EmailStr
-    phone: str
-    links: List[Links] = []
-    location: str
+    phone: Optional[str] = None
+    links: Optional[Links] = None
+    address: Optional[str] = None
     objective: Optional[str] = None
     summary: Optional[str] = None
-    soft_skills: List[str] = []
-    hard_skills: List[str] = []
-    work_experience: List[WorkExperience] = []
-    education: List[Education] = []
-    volunteer_experience: List[VolunteerExperience] = []
-    awards: List[str] = []
-    publications: List[Publication] = []
-    certifications: List[str] = []
-    references: List[Reference] = []
+    soft_skills: Optional[List[str]] = None
+    hard_skills: Optional[List[str]] = None
+    work_experience: Optional[List[WorkExperience]] = None
+    education: Optional[List[Education]] = None
+    volunteer_experience: Optional[List[VolunteerExperience]] = None
+    awards: Optional[List[str]] = None
+    publications: Optional[List[Publication]] = None
+    certifications: Optional[List[str]] = None
+    references: Optional[List[Reference]] = None
