@@ -27,17 +27,31 @@ class ResumeController:
             try:
                 details = self.resume_service.ask_gemini_for_structured_resume(text, model_version)
             except Exception as e:
-                raise HTTPException(
-                    status_code=status.HTTP_502_BAD_GATEWAY,
-                    detail="Gemini API returned no output."
-                )
+                # Log the first failure for debugging
+                print(f"Primary model {model_version} failed: {e}")
+
+                # Define a fallback model version
+                fallback_version = 2 # Fallback to Gemini Flash 2.5
+
+                try:
+                    details = self.resume_service.ask_gemini_for_structured_resume(text, fallback_version)
+                except Exception as e2:
+                    # Log the fallback failure
+                    print(f"Fallback model {fallback_version} also failed: {e2}")
+                    raise HTTPException(
+                        status_code=status.HTTP_502_BAD_GATEWAY,
+                        detail="Gemini API failed for both primary and fallback versions."
+                    )
+
                 
-            print(details)
+            print("From Gemini: ", details)
             
             # Parse Gemini response as JSON
             try:
                 data = json.loads(details)
             except json.JSONDecodeError as e:
+                print("JSON parse error:", e)
+                print("Offending snippet near:", details[e.pos-50:e.pos+50])
                 raise HTTPException(
                         status_code=status.HTTP_502_BAD_GATEWAY,
                         detail=f"Gemini returned invalid JSON: {str(e)}"

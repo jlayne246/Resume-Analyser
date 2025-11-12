@@ -20,17 +20,19 @@ class GeminiClient:
             response (string): The model's response.
         """
         response = self.client.models.generate_content(
-            model="gemini-2.0-flash-exp",
+            model="gemini-2.0-flash",
             contents=query,
             config=types.GenerateContentConfig(
                 temperature=0,
                 top_p=0.01,  # top_p cannot be 0, must be > 0
                 top_k=1,
                 candidate_count=1,
-                max_output_tokens=4096,
+                max_output_tokens=8192,
                 response_mime_type="application/json",
             )
         )
+        
+        print("Retrieving response...")
         
         # extract model text
         return response.text
@@ -45,6 +47,14 @@ class GeminiClient:
         """
         response = self.client.models.generate_content(
             model="gemini-2.5-flash",
-            contents=query
+            contents=query,
+            config=types.GenerateContentConfig(
+                temperature=0,
+                top_p=0.01,  # top_p cannot be 0, must be > 0
+                top_k=1,
+                candidate_count=1,
+                max_output_tokens=8192,
+                response_mime_type="application/json",
+            )
         )
         return response.text
