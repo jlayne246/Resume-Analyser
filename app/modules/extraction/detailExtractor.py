@@ -136,15 +136,24 @@ class DetailExtractor:
         Returns:
             dict: JSON with the following structure:
                 {
-                    "namePresent": bool,
-                    "phoneNumberPresent": bool,
-                    "emailPresent": bool,
-                    "linkedInPresent": bool,
-                    "personalWebsitePresent": bool,
-                    "educationInstitutes": list[str],
-                    "educationalDegrees": list[str],
-                    "skills": list[str],
-                    "companyNamesFromExperience": list[str]
+                    *needs to be updated
+                    first_name: str
+                    last_name: str
+                    email: EmailStr
+                    phone: str
+                    links: List[Links]
+                    address: str
+                    objective: Optional[str]
+                    summary: Optional[str]
+                    soft_skills: List[str]
+                    hard_skills: List[str]
+                    work_experience: List[WorkExperience]
+                    education: List[Education]
+                    volunteer_experience: List[VolunteerExperience]
+                    awards: List[str]
+                    publications: List[Publication]
+                    certifications: List[str]
+                    references: List[Reference]
                 }
         """
         if model == 1:
