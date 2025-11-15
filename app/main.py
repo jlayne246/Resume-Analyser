@@ -4,6 +4,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.sessions import SessionMiddleware
 from app.api.routes.resume_routes import router as resume_router
+from app.api.routes.feedback_routes import router as feedback_router
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -38,6 +39,7 @@ app.add_middleware(
 
 # Register routers (modular)
 app.include_router(resume_router, prefix="/api/resumes", tags=["Resumes"])
+app.include_router(feedback_router, prefix="/api/feedback", tags=["Feedback"])
 
 @app.get("/health")
 def health_check():

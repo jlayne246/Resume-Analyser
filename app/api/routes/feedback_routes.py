@@ -2,6 +2,7 @@ from fastapi import APIRouter, HTTPException, UploadFile, status, Request
 from fastapi.responses import JSONResponse
 from app.api.controllers.feedback_controller import FeedbackController
 from app.data.feedback_generated import feedback_generated
+from app.api.routes.analysis_routes import execute_analysis
 import uuid
 
 router = APIRouter()
@@ -10,11 +11,11 @@ router = APIRouter()
 @router.post(
     "/generate"
 )
-async def generate_feedback(request: Request):
+async def generate_feedback(request: Request, career: str):
     resume_id = request.session.get("resume_id")
     try:
         try:
-            details = await request.json() # Placeholder for internal API call to analysis module
+            details = await execute_analysis(request, career) # Placeholder for internal API call to analysis module
             
         except Exception as e:
             raise HTTPException(
@@ -25,7 +26,7 @@ async def generate_feedback(request: Request):
         controller = FeedbackController()
     
         feedback = await controller.provide_feedback(
-            details.get("resume_details")
+            details.get("analysis")
         )
         
         feedback_generated[resume_id] = feedback
@@ -37,4 +38,7 @@ async def generate_feedback(request: Request):
 
 @router.get("/get")
 async def get_feedback(request: Request):
-    return 0
+    resume_id = request.session.get("resume_id")
+    generated_feedback = feedback_generated.get(resume_id, {})
+    print("Retrieved generated feedback from session:", generated_feedback)
+    return generated_feedback
