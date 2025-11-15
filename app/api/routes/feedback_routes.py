@@ -10,7 +10,7 @@ router = APIRouter()
 @router.post(
     "/generate"
 )
-async def generate_feedback(request: Request):
+async def generate_feedback(request: Request, career: str):
     resume_id = request.session.get("resume_id")
     try:
         try:
@@ -37,4 +37,7 @@ async def generate_feedback(request: Request):
 
 @router.get("/get")
 async def get_feedback(request: Request):
-    return 0
+    resume_id = request.session.get("resume_id")
+    generated_feedback = feedback_generated.get(resume_id, {})
+    print("Retrieved generated feedback from session:", generated_feedback)
+    return generated_feedback
