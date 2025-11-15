@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, UploadFile, status, Request
 from fastapi.responses import JSONResponse
-# from app.api.controllers.analysis_controller import AnalysisController
+from app.api.controllers.analysis_controller import AnalysisController
 from app.data.store_state import parsed_resumes
 from app.data.analysis_results import analysis_results
 
@@ -20,8 +20,7 @@ async def execute_analysis(request: Request, career: str):
                 detail=f"Unable to retrieve resume data: {str(e)}"
             )
         
-        # controller = AnalysisController()
-        controller = None
+        controller = AnalysisController()
     
         analysis = await controller.provide_analysis(
             resume_data,

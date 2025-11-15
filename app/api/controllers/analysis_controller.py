@@ -7,3 +7,6 @@ from app.api.services.analysis_service import AnalysisService
 class AnalysisController:
     def __init__(self):
         self.analysis_service = AnalysisService()
+        
+    def provide_analysis(self, resume_data, career):
+        pass
