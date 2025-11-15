@@ -1,4 +1,4 @@
-from similarity import compute_similarity
+from modules.analysis.similarity import compute_similarity
 
 class FeatureBuilder:
     def __init__(self, resume_data, desired_role):
@@ -62,7 +62,7 @@ class FeatureBuilder:
             text = f"{degree} {field}".strip()
             similarities.append(compute_similarity(text, self.desired_role))
 
-        self.features['education_similarity'] = sum(similarities) / len(similarities) if similarities else 0.0
+        self.features['avg_education_similarity'] = sum(similarities) / len(similarities) if similarities else 0.0
 
     def build_volunteer_features(self):
         self.features['num_volunteer_experiences'] = len(self.resume_data.volunteer_experience or [])

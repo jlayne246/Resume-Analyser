@@ -4,6 +4,7 @@ from modules.extraction.pdfTextExtractor import PDF
 from modules.extraction.detailExtractor import DetailExtractor
 from modules.analysis.similarity import compute_similarity
 from modules.analysis.featureBuilder import FeatureBuilder
+from modules.analysis.recommendationEngine import RecommendationEngine
 from dotenv import load_dotenv
 load_dotenv()
 print("Running tester.py")
@@ -68,6 +69,15 @@ Pick model to structure resume with:\n
             score = compute_similarity(text1, text2)
             print(f"Similarity Score: {score}")
     elif option == '6':
-        print("Feature Extraction from Structured Resume")
-        # For testing, we will use a hardcoded structured resume JSON. Probably should save output from option 4 to a file and read from it here.
+        print("Compare features to ideal feature set")
+        test_features_path = "samples/testFeatures.json"
+        ideal_features_path = "app/modules/analysis/idealFeatureStore.json"
+        with open(test_features_path, 'r') as f:
+            actual_features = json.load(f)
+        with open(ideal_features_path, 'r') as f:
+            ideal_features = json.load(f)
+        RecommendationEngineObj = RecommendationEngine(actual_features, ideal_features)
+        recommendations = RecommendationEngineObj.generate_recommendations()
+        print("Generated Recommendations:",recommendations)
+        
         
