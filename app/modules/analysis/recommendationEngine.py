@@ -1,6 +1,6 @@
 class RecommendationEngine:
-    def __init__(self, actual_features, ideal_features):
-        self.actual = actual_features
+    def __init__(self, ideal_features):
+        self.actual = {}
         self.ideal = ideal_features
         self.recommendations = {
             "personal_recommendation": "",
@@ -14,6 +14,9 @@ class RecommendationEngine:
         }
 
     def generate_recommendations(self):
+        if not self.actual:
+            raise ValueError("Actual features not set. Please set actual features before generating recommendations.")
+        
         self.compare_group("personal_recommendation", [
             "has_name", "has_email", "has_phone_number", "has_address"
         ])
@@ -65,3 +68,6 @@ class RecommendationEngine:
 
         if messages:
             self.recommendations[group_name] = "; ".join(messages)
+            
+    def set_actual_features(self, actual_features):
+        self.actual = actual_features

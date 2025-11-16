@@ -29,6 +29,7 @@ class FeedbackGenerator:
         2. Provide specific, actionable recommendations for improvement in each section of the resume as outlined in the schema.
         3. Be constructive and professional in your feedback.
         4. Return a only valid JSON object adhering to the provided schema. No commentary, no Markdown, no explanations.
+        5. If there is nothing assigned for a particular point, return "This is fine as is" for that point.
         
         """
         self.client = GeminiClient()

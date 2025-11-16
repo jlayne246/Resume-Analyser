@@ -8,7 +8,7 @@ class FeedbackController:
     def __init__(self):
         self.feedback_service = FeedbackService()
     
-    def provide_feedback(self, resume_details):
+    async def provide_feedback(self, resume_details):
         model = 1  # Default to Gemini Flash 2.0
         try:
             try:
@@ -27,7 +27,18 @@ class FeedbackController:
                         detail="Gemini API failed for both primary and fallback versions."
                     )
             
-            return JSONResponse(content={"feedback": feedback}, status_code=status.HTTP_200_OK)
+            # Parse Gemini response as JSON
+            try:
+                data = json.loads(feedback)
+            except json.JSONDecodeError as e:
+                print("JSON parse error:", e)
+                print("Offending snippet near:", feedback[e.pos-50:e.pos+50])
+                raise HTTPException(
+                        status_code=status.HTTP_502_BAD_GATEWAY,
+                        detail=f"Gemini returned invalid JSON: {str(e)}"
+                    )
+            
+            return {"feedback": data}
         except Exception as e:
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,

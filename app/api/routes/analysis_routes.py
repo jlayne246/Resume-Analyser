@@ -9,7 +9,7 @@ router = APIRouter()
 @router.post(
     "/execute"
 )
-async def execute_analysis(request: Request, career: str):
+def execute_analysis(request: Request, desired_role: str):
     resume_id = request.session.get("resume_id")
     try:
         try:
@@ -19,17 +19,19 @@ async def execute_analysis(request: Request, career: str):
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail=f"Unable to retrieve resume data: {str(e)}"
             )
+            
+        print("Resume data for analysis:", resume_data)
+        print("Desired role for analysis:", desired_role)
         
-        controller = AnalysisController()
+        controller = AnalysisController(resume_data,
+            desired_role)
     
-        analysis = await controller.provide_analysis(
-            resume_data,
-            career
-        )
+        analysis = controller.provide_analysis()
         
-        analysis_results[resume_id] = analysis
+        analysis_results[resume_id] = analysis["content"]
         
-        return JSONResponse(content={"analysis": analysis, "details": resume_data}, status_code=status.HTTP_200_OK)
+        # return JSONResponse(content={"analysis": analysis, "details": resume_data}, status_code=status.HTTP_200_OK)
+        return {"analysis": analysis["content"], "details": resume_data}
     except Exception as e:
         print("Error occurred while generating analysis:", e)
         raise HTTPException(status_code=500, detail=str(e))
