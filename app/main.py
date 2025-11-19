@@ -14,6 +14,8 @@ app = FastAPI(
     description="Structured resume parsing powered by Gemini Flash",
 )
 
+port = int(os.environ.get("PORT", 8000))
+
 # app.add_middleware(
 #     CORSMiddleware,
 #     allow_origins=["*"],
@@ -48,4 +50,4 @@ def health_check():
 if __name__ == "__main__":
     import uvicorn
     print("Starting server...")
-    uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run("app.main:app", host="0.0.0.0", port=port, reload=True)
