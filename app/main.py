@@ -47,7 +47,7 @@ app.include_router(feedback_router, prefix="/api/feedback", tags=["Feedback"])
 def health_check():
     return {"status": "ok"}
 
-if __name__ == "__main__":
-    import uvicorn
-    print("Starting server...")
-    uvicorn.run("app.main:app", host="0.0.0.0", port=port)
+# if __name__ == "__main__":
+#     import uvicorn
+#     print("Starting server...")
+#     uvicorn.run("app.main:app", host="0.0.0.0", port=port)
