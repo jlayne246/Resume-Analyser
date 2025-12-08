@@ -13,10 +13,10 @@ class WorkExperience(BaseModel):
         populate_by_name = True
 
 class Education(BaseModel):
-    institution: str = Optional[str] = Field(default=None)
-    major: str = Optional[str] = Field(default=None)
+    institution: Optional[str] = Field(default=None)
+    major: Optional[str] = Field(default=None)
     start_date: Optional[str] = Field(default=None)
-    end_date: str = Optional[str] = Field(default=None)
+    end_date: Optional[str] = Field(default=None)
     description: Optional[str] = Field(default=None)
     # Gemini usually omits these → make them optional
     degree: Optional[str] = None
