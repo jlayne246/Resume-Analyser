@@ -17,8 +17,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-# Pre-download sentence-transformers model at build time
-RUN python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('all-MiniLM-L6-v2')"
+# Pre-download the MiniLM model into a known directory inside the image
+RUN python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('all-MiniLM-L6-v2').save('/app/models/all-MiniLM-L6-v2')"
 
 EXPOSE 8080
 
