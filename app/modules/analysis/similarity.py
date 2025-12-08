@@ -1,6 +1,15 @@
 from sentence_transformers import SentenceTransformer, util
+import os
 
-model = SentenceTransformer('all-MiniLM-L6-v2')
+# The model should already be downloaded into the image during Docker build.
+# We load it from the HF cache directory inside the container.
+MODEL_NAME = "all-MiniLM-L6-v2"
+
+# Explicit cache folder to ensure consistency inside Container filesystem
+CACHE_DIR = "/root/.cache/torch/sentence_transformers"
+
+model = SentenceTransformer(MODEL_NAME, cache_folder=CACHE_DIR)
+
 def compute_similarity(text1: str, text2: str) -> float:
     """Compute the cosine similarity between two texts using sentence embeddings.
 

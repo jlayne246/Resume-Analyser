@@ -6,7 +6,10 @@ from starlette.middleware.sessions import SessionMiddleware
 from app.api.routes.resume_routes import router as resume_router
 from app.api.routes.feedback_routes import router as feedback_router
 from dotenv import load_dotenv
-load_dotenv()
+# load_dotenv()
+
+if os.environ.get("ENVIRONMENT") == "LOCAL":
+    load_dotenv()
 
 app = FastAPI(
     title="Resume Analyser API",
@@ -33,7 +36,7 @@ app.add_middleware(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # your React dev server
+    allow_origins=["*"],  # your React dev server
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
