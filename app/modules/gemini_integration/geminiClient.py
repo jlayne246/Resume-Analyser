@@ -20,7 +20,7 @@ class GeminiClient:
             response (string): The model's response.
         """
         response = self.client.models.generate_content(
-            model="gemini-2.0-flash",
+            model="gemini-2.0-flash-001",
             contents=query,
             config=types.GenerateContentConfig(
                 temperature=0,
