@@ -34,9 +34,15 @@ app.add_middleware(
     https_only=True,       # must be False during local dev over HTTP
 )
 
+origins = [
+    "https://cv-improvements.vercel.app",
+    "https://www.cv-improvements.vercel.app",
+    "http://localhost:3000",  # local dev
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # your React dev server
+    allow_origins=origins,  # your React dev server
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
