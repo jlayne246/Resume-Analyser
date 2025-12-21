@@ -13,10 +13,10 @@ class WorkExperience(BaseModel):
         populate_by_name = True
 
 class Education(BaseModel):
-    institution: str = Field(default=None)
-    major: str = Field(default=None)
+    institution: Optional[str] = Field(default=None)
+    major: Optional[str] = Field(default=None)
     start_date: Optional[str] = Field(default=None)
-    end_date: str = Field(default=None)
+    end_date: Optional[str] = Field(default=None)
     description: Optional[str] = Field(default=None)
     # Gemini usually omits these → make them optional
     degree: Optional[str] = None
@@ -36,11 +36,11 @@ class VolunteerExperience(BaseModel):
     location: Optional[str] = None
 
 class Reference(BaseModel):
-    name: str
+    name: Optional[str]
     title: Optional[str] = None
     company: Optional[str] = None
     mobile: Optional[str] = None
-    email: EmailStr
+    email: Optional[EmailStr] = None
     # Gemini doesn’t use "organization" or "phone", so drop them or alias them
     organization: Optional[str] = None
     phone: Optional[str] = None
@@ -75,3 +75,5 @@ class ResumeSchema(BaseModel):
     publications: Optional[List[Publication]] = None
     certifications: Optional[List[str]] = None
     references: Optional[List[Reference]] = None
+
+#test

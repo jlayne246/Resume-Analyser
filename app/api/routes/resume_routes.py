@@ -34,6 +34,8 @@ async def parse_resume(request: Request, file: UploadFile):
 
         request.session["resume_id"] = session_id
 
+        print("Saved session id: ", session_id)
+
         # 🔍 After saving
         # print("After saving session:", dict(request.session))
         return JSONResponse(status_code=status.HTTP_200_OK, content=session_id)
@@ -44,6 +46,7 @@ async def parse_resume(request: Request, file: UploadFile):
 @router.get("/get")
 async def get_parsed_resume(request: Request):
     resume_id = request.session.get("resume_id")
+    print("Retrieved session id: ", resume_id)
     parsed_resume = parsed_resumes.get(resume_id, {})
     print("Retrieved parsed resume from session:", parsed_resume)
     return parsed_resume
